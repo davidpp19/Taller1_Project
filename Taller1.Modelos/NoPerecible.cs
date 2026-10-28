@@ -8,14 +8,27 @@ namespace Taller1.Modelos
 {
     public class NoPerecible : Producto
     {
-        public int MesesGarantia { get; set; }
+        public int mesesGarantia { get; set; }
 
-        public override double PrecioVenta
+        public NoPerecible(string codigo, string nombre, decimal precio, string tipo, int MesesGarantia)
+            : base(codigo, nombre, precio, tipo)
         {
-            get
-            {
-                return precioBase * 1.15;
-            }
+            this.mesesGarantia = MesesGarantia;
+        }
+
+        public override decimal CalcularPrecioFinal()
+        {
+            decimal precioBase = base.CalcularPrecioFinal();
+            decimal iva = precioBase * 0.15m;
+            decimal precioFinal = precioBase + iva;
+            return precioFinal;
+        }
+
+        public override void MostrarInformacion()
+        {
+            base.MostrarInformacion();
+            Console.WriteLine($"Garantía: {mesesGarantia} meses");
+            Console.WriteLine($"Precio Final (con 15% IVA): ${CalcularPrecioFinal():F2}");
         }
     }
 }
